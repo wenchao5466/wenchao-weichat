@@ -1,0 +1,105 @@
+<extend name="Common:base" />
+<block name="title">{$title}</block>
+<block name="left"></block>
+<block name="main">
+	<link rel="stylesheet" href="/assets/css/doc.css">
+	<style>
+	  .togetherjs-focus {border:0;}
+	  .btn-primary {}
+	   body {overflow-x:hidden;}
+	  .navbar-fixed-top, .navbar-fixed-bottom {position:static;}
+	  #content{margin-top:5px;}
+	</style>
+	<script type="text/javascript" charset="utf-8" src="/assets/js/ueditor-v2/ueditor.config.js"></script> 
+	<script charset="utf-8"  src="/assets/js/ueditor-v2/ueditor.all.js"></script> 
+	<script charset="utf-8"  src="/assets/js/ueditor-v2/lang/zh-cn/zh-cn.js"></script> 
+	<!-- <script src="/assets/js/togetherjs/togetherjs.js"></script>  -->
+	<script src="/assets/js/news_info.js" /> </script>
+	<div id="content-main" class="main clearfix">
+	<form method="post" class="form-inline" id="doc_form" action='/admin/news/edit/id/{$news.id}' enctype="multipart/form-data" >
+		<input type="hidden" name="user_id" value="{$user_id}"/>
+		<input type="hidden" name="saveDoc" value="1"/>
+		<input type="hidden" name="news_id" id="news_id" value="<if condition='$news'>{$news.id}<else/>0</if>"/>
+		<input type="hidden" name="parent_id" id="parent_id" value="{$parent_id}"/>
+		<input type="hidden" name="edit_status" id="edit_status" value="edit"/>
+		<div class="version">
+			<h3 style="display:;">分类:</h3>
+			{$select_html}
+			<if condition='($news.publish_type eq 2)'> 
+				<div id='publish_url' style="clear:both;padding-top:15px; display:block;"> 
+				发布链接为：<a class="doc_url" href="{$publish_url}" target="_blank">{$publish_url}</a>
+				</div>
+			<else/>
+				<div id='publish_url' style="clear:both;padding-top:15px; display:block;"></div>
+			</if>
+		</div>
+		<div class="row" style="position:relative;clear:both;">
+		<div class="form-group text-input">
+			<label for="title">标题：</label>
+			<input type="text" class="form-control input-sm" id="title" placeholder="请输入标题" value="{$news.title}" name="title" maxlength="50" required="">
+		</div>
+		<div class="bt-group"> <span style="color:red;font-size:12px;" ></span> 
+		<input type="submit" value='保存' class="btn btn-primary" /><!-- <a id="doc_save"  class="btn btn-primary"> 保存</a> --> 
+		<a href="/admin/news/index/" class="btn btn-primary " style="">返回列表</a>
+		<if condition="($news)">
+			<a class="btn btn-primary" target="_blank" href="/admin/news/preview/id/{$news.id}" id="pre view">预览</a> 
+			<if condition="($news.publish_type neq 2)">
+				<a class="btn btn-primary "  href="javascript:void(0);" id="release" data-toggle="modal" data-target="#pModal">发布</a> 
+				<a class="btn btn-primary " style="display:none;" href="javascript:;" id="cancle_publish" >取消发布</a>
+			<else/>
+				<a class="btn btn-primary " style="display:none;" href="javascript:;" id="release" data-toggle="modal" data-target="#pModal">发布</a> 
+				<a class="btn btn-primary "  href="javascript:;" id="cancle_publish" >取消发布</a>
+			</if>
+		</if> 
+		<span class="red f12"></span></div>
+	</div>
+	<div class="col-xs-6" style="margin-bottom:15px;clear:both;width:100%;margin-top:20px;" id="list" style="display:none;">
+	<textarea class="ckeditor" name="editor"  id="editor" style="min-height:350px;width:100%;" maxlength="1000">{$news.content}</textarea>
+	</div>
+	<div class="form-group text-input" style="margin-left:15px;">
+		<label for="abstract">摘要：</label>
+		<textarea name="abstract"  id="abstract" style="margin-top: 10px;" class="form-control input-sm" placeholder="请输入摘要" maxlength="200" required="">{$news.alias}</textarea>
+		<label for="video_url">视频地址：</label>
+		<input type="text" class="form-control input-sm" id="video_url" placeholder="请输入视频地址" value="{$news.video_url}" name="video_url" style="margin-top: 10px;" >
+		<label for="cover">上传封面：</label>
+		<input type="file" class="form-control input-sm" id="cover" name="cover" style="width:275px;margin-top: 10px;" <if condition="!isset($news['img_url'])"> </if>>
+		<input type="hidden"  name="cover" <if condition="isset($news['img_url'])">  value="{$news.img_url}"</if>>
+		<if condition="isset($news['img_url'])">
+			<div class="col-xs-6" style="margin-bottom:10px;clear:both;width:100%;margin-top:10px;" id="list" >
+	        	<div>
+	      			<img id="show_image"  required="" class="img-thumbnail" <if condition="isset($news['img_url'])"> src="{$news.img_url}" </if>>
+	        	</div>
+			</div>
+		</if>
+	</div>
+	</form>
+	</div>
+	<!--发布弹窗 start-->
+	<div class="modal fade" id="pModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<form>
+			<div class="modal-dialog w400">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">发布</h4>
+					</div>
+					<div class="modal-body">
+						<div class="t_window">
+							<div class="d_url"> 发布链接为：
+								{$publish_url}
+							</div>
+							<input type="hidden" name='news_id'  value="{$news.id}"/>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal" id="p_button">发布</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!--发布弹窗 end--> 
+	
+	
+	
+</block>

@@ -1,0 +1,14 @@
+/*leftnav_menu*/
+.wbgLeft_user { width: 98%; border: 1px solid #eee; border-top: none; min-height: 500px; height: auto !important; height: 500px; }
+.wbgUser_menu h3 { margin: 0; padding: 0; height: 42px; line-height: 42px; background: #f6f6f6; border-top: 1px solid #eee; padding-left: 8px; color: #858598; font-size: 14px; cursor: pointer; text-shadow: 0 1px 0 #FFF }
+.wbgUser_menu h3.border-bot0 { border-bottom: none; }
+.wbgUser_menu h3 span { background: url("../img/bgimg/smallPic.png") no-repeat -45px 0; display: inline-block; float: right; height: 12px; width: 12px; padding-right: 20px; margin-top: 14px }
+.wbgUser_menu h3 span.zk { background: url("../img/bgimg/smallPic.png") no-repeat -69px 0; }
+.wbgUser_menu ul { margin: 6px 0px; }
+.wbgUser_menu ul li { list-style: none; display: block; line-height: 28px;padding:0 15px;margin:5px 0; color: #858598; text-shadow: 0 1px 0 #FFF }
+.wbgUser_menu ul li a { display: block; color: #858598; text-decoration: none;padding-left:10px; }
+.wbgUser_menu ul li.menu_nowUser a, .wbgUser_menu ul li a:hover { background: url("../img/bgimg/smallPic.png") no-repeat 210px -6px #eee; border-radius: 4px;color: #636065; }
+ @media screen and (max-width: 600px) {
+.wbgLeft_user { min-height: 200px; height: auto !important; height: 200px; }
+}
+

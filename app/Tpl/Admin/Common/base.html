@@ -1,0 +1,111 @@
+<tagLib name="html" /> 
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title><block name="title"></block></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/jquery-ui-1.10.3.custom.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/style.min.css">
+    <!--[if lt IE 9]>
+      <script src="/assets/js/vendor/html5shiv.js"></script>
+      <script src="/assets/js/vendor/respond.min.js"></script>
+    <![endif]-->
+    <!-- <script src="/assets/js/togetherjs/libs/require.js?bust=1397656225625"></script> -->
+    <script>
+        
+    </script>
+    <script src="/assets/js/vendor/jquery-1.9.1.min.js"></script>
+    <script src="/assets/js/vendor/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="/assets/js/vendor/jquery.validate.js"></script>
+    <script src="/assets/js/vendor/jquery-form.js"></script>
+  </head>
+  <body>
+    <header class="navbar navbar-inverse navbar-fixed-top wj-navbar" role="banner">
+      <div class="container">
+        <div class="navbar-header">
+         <!-- <button class="navbar-toggle" id="logout-button"><a href="/Public/logout"><span class="glyphicon glyphicon-log-out"></span></a></button> -->
+          <button class="navbar-toggle" id="logout-button" type="button"  data-target=".usercontent" ><span class="glyphicon glyphicon-user"></span></button>
+          <!-- <button class="navbar-toggle email-help" id="help-button"><a class="glyphicon glyphicon-question-sign" data-toggle="modal" href="#helpModal"></a></button> -->
+          <if condition='($user.is_admin eq 1)'>
+	          <button class="navbar-toggle" type="button" data-target="nav" data-height="103" >
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	      </if>
+          <!-- <button class="navbar-toggle" id="search-toggler" type="button" data-target=".search-container" data-height="58"><span class="glyphicon glyphicon-search"></span></button>
+           -->
+          <a href="/admin" class="navbar-brand logo-container">Event<span class="glyphicon glyphicon-home"></span></a>
+          <!-- <div class="pull-left search-container navbar-togglable">
+            <input id="site-search" type="search" class="form-control people-search" placeholder="搜索互联网金融集团的人">
+            <input id="site-search-term-id" type="hidden" value="">
+          </div> -->
+          <!-- 手机 下拉 -->
+ 		   <div class="search-user navbar-togglable usercontent" style="display:none;">
+	           	<ul class="nav">
+	           		<li><a href="#">欢迎 {$user_name}</a></li>
+		           <li>
+		             <a href="/admin/login/logout">退出</a>
+		           </li> 
+	         	</ul>
+            </div>
+            <!-- end 手机 下拉 -->
+        </div>
+        <div class="navbar-text pull-right mobile-pulldown">
+          <!-- <if condition="(!isset($menu_prv))">
+          <a href="/User/changePassword" class="" style="margin-right:10px;margin-left:10px;"><b>修改密码</b></a>
+        <else />
+          <a href="/User/profile" class="" style="margin-right:120px;"><b>返回个人主页</b></a>
+        </if> -->
+          <if condition="($user_name)">
+            <a href="#" class=""><b>{$user_name}</b></a>
+							
+             <a href="/admin/login/logout" class="">退出</a> 
+          <else />
+            <a href="/admin/login" class="">登录</a>
+          </if>
+          <!-- <a class="glyphicon glyphicon-question-sign email-help" style="font-size:17px;" data-toggle="modal" href="#helpModal"></a> -->
+        </div>
+      </div>
+    </header>
+    <div class="container" id="content" >
+      <div class="row">
+      <if condition='($user.is_admin eq 1)'>
+        <block name="left">
+          <div class="col-sm-3">
+            <nav class="clearfix navbar-togglable" role="navigation">
+			<ul class="nav">
+                <volist name="list" id="vo">
+          			<li <if condition="($nav_id eq $i)">class="active"</if> ><a href="{$vo['url']}">{$vo['title']}</a></li>
+				</volist>
+				
+	                <volist name="admin_nav_list" id="vo">
+	          			<li <if condition="($admin_id eq $i)">class="active"</if>><a href="{$vo['url']}">{$vo['title']}</a></li>
+					</volist>
+				
+                </ul>
+            </nav>
+          </div>
+        </block>
+        </if>
+        <div class="col-sm-9" <if condition='($user.is_admin neq 1)'>style="width:100%;"</if>>
+          <block name="main"></block>
+        </div>
+      </div>
+    </div>
+   
+    <script src="/assets/js/vendor/bootstrap.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/common.js"></script>
+    <div id="conversejs"></div>
+    <script>
+        var _ncf={"prd":"event","pstr":"","pfunc":null,"pcon":"","pck":{"whoid":"whoid"}};
+		(function(p,h,s){var o=document.createElement(h);o.src=s;p.appendChild(o)})(document.getElementsByTagName("HEAD")[0],"script","http://zcs1.ncfstatic.com/js/ncfpb.1.1.min.js");
+    </script>
+  </body>
+</html>

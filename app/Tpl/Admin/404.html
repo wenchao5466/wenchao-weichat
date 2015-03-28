@@ -1,0 +1,28 @@
+<extend name="Common:base2" />
+<block name="title">404...</block>
+<block name="main">
+	<link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/login.css">
+    <!--[if lt IE 9]>
+      <script src="/assets/js/vendor/html5shiv.js"></script>
+      <script src="/assets/js/vendor/respond.min.js"></script>
+    <![endif]-->
+    <div class="container">
+		<form class="form-signin" action="__URL__/checkLogin" method="post">
+			<h2 class="form-signin-heading">此页面不存在</h2>
+			<p class="detail"></p>
+			<p class="jump">
+			<a id="href" href="/activity/index"></a>
+			<script type="text/javascript">
+			/* (function(){
+			var wait = document.getElementById('wait'),href = document.getElementById('href').href;
+			var interval = setInterval(function(){
+				location.href = href;
+			}, 1000);
+			})(); */
+			</script>
+		</form>
+	</div>
+</block>
+
+

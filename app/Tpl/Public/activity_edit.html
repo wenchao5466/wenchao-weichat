@@ -1,0 +1,144 @@
+<extend name="Common:base" />
+<block name="title">{$title}</block>
+<block name="main">
+	<link rel="stylesheet" href="/assets/css/doc.css">
+	<style>
+	  .togetherjs-focus {border:0;}
+	  .btn-primary {}
+	   body {overflow-x:hidden;}
+	  .navbar-fixed-top, .navbar-fixed-bottom {position:static;}
+	  #content{margin-top:5px;}
+	</style>
+	<script type="text/javascript" charset="utf-8" src="/assets/js/ueditor-v2/ueditor.config.js"></script> 
+	<script charset="utf-8"  src="/assets/js/ueditor-v2/ueditor.all.js"></script> 
+	<script charset="utf-8"  src="/assets/js/ueditor-v2/lang/zh-cn/zh-cn.js"></script> 
+	<!-- <script src="/assets/js/togetherjs/togetherjs.js"></script>  -->
+	<script src="/assets/js/doc.js?v=1" /> </script>
+	<div id="content-main" class="main clearfix">
+	<form method="post" class="form-inline" id="doc_form" action='/admin/activity/edit/id/{$doc.id}'>
+		<input type="hidden" name="user_id" value="{$user.id}"/>
+		<input type="hidden" name="saveDoc" value="1"/>
+		<input type="hidden" name="doc_id" id="doc_id" value="<if condition='$doc'>{$doc.id}<else/>0</if>"/>
+		<input type="hidden" name="parent_id" id="parent_id" value="{$parent_id}"/>
+		<input type="hidden" name="edit_status" id="edit_status" value="edit"/>
+		<div class="version">
+			<h3 style="display:none;">选择分类:</h3>
+			<div class="mulDom" id="mullist" style="display:none;">
+			<select class="select" name="category_id" id="category_id">
+				<!-- <option value=''>请选择分类</option> -->
+				<volist name="category_list" id="category">
+					<option value='{$category.id}' <if condition='($category.id eq $category_id)'>selected</if>>{$category.title}</option>
+				</volist>
+			</select>
+			</div>
+			<!-- <h3>历史版本回顾:</h3>
+			<select id="select">
+				<option>请选择历史版本</option>
+			</select> -->
+			<if condition='($doc.publish_type eq 2)'> 
+				<div id='publish_url' style="clear:both;padding-top:15px; display:block;"> 
+				发布链接为：<a class="doc_url" href="{$publish_url}" target="_blank">{$publish_url}</a>
+				<if condition="($doc.alias neq '')">
+					<br>或者为：<a class="doc_url" href="{$site_url}/{$activity_url}/{$doc.alias}" target="_blank">{$site_url}/{$activity_url}/{$doc.alias}</a>
+				</if>
+				</div>
+			<else/>
+				<div id='publish_url' style="clear:both;padding-top:15px; display:block;"></div>
+			</if>
+		</div>
+		<div class="row" style="position:relative;clear:both;">
+			<div class="form-group text-input">
+				<input type="text" class="form-control input-sm" id="doc_name" placeholder="请输入活动标题" value="{$doc.name}{$parent_id}" name="doc_name">
+				<input type="text" style="margin-top: 10px;" class="form-control input-sm" id="alias" placeholder="别名" value="{$doc.alias}" name="alias">
+			</div>
+			<div class="form-group text-input">
+				
+			</div>
+			<div class="bt-group"> <span style="color:red;font-size:12px;" ></span> 
+			<input type="submit" value='保存' class="btn btn-primary" /><!-- <a id="doc_save"  class="btn btn-primary"> 保存</a> --> 
+			<a href="/admin/activity/index/" class="btn btn-primary " style="">返回列表</a>
+			<if condition="($doc)">
+				<a class="btn btn-primary" activity_id="{$doc.id}" href="javascript:;" id="preview">预览</a> 
+				<if condition="($doc.publish_type neq 2)">
+					<a class="btn btn-primary "  href="javascript:void(0);" id="release" data-toggle="modal" data-target="#pModal">发布</a> 
+					<a class="btn btn-primary " style="display:none;" href="javascript:;" id="cancle_publish" >取消发布</a>
+				<else/>
+					<a class="btn btn-primary " style="display:none;" href="javascript:;" id="release" data-toggle="modal" data-target="#pModal">发布</a> 
+					<a class="btn btn-primary "  href="javascript:;" id="cancle_publish" >取消发布</a>
+				</if>
+			</if> 
+			<a class="btn btn-primary"  href="javascript:void(0);" id="help" data-toggle="modal" data-target="#helpModal">使用说明</a>
+			<span class="red f12"></span></div>
+		</div>
+		<div class="col-xs-6" style="margin-bottom:15px;clear:both;width:100%;margin-top:20px;" id="list" style="display:none;">
+		<div>
+			<textarea class="ckeditor" name="editor"  id="editor" style="min-height:350px;width:100%;">{$doc.content}</textarea>
+		</div>
+		</div>
+	</form>
+	</div>
+	
+	<!--发布弹窗 start-->
+	<div class="modal fade" id="pModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<form>
+			<div class="modal-dialog w400">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">发布</h4>
+					</div>
+					<div class="modal-body">
+						<div class="t_window">
+							<div class="d_url"> 发布链接为：
+								{$site_url}/{$activity_url}/{$doc.id}
+								<if condition="($doc.alias neq '')">
+								<br>或者为：{$site_url}/{$activity_url}/{$doc.alias}
+								</if>
+							</div>
+							<input type="hidden" name='doc_id'  value="{$doc.id}"/>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal" id="p_button">发布</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!--发布弹窗 end--> 
+	
+	
+	
+	<!--模板使用说明 start-->
+	<div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<form>
+			<div class="modal-dialog w400">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">模板使用说明</h4>
+					</div>
+					<div class="modal-body">
+						<div class="t_window">
+							<div class="d_url">
+								1.需要在用户登录之后显示的内容写在&lt;user_login_show&gt;&lt;/user_login_show&gt;标记中。<br/>
+								2.需要在用户登录之后隐藏的内容写在&lt;user_login_hide&gt;&lt;/user_login_hide&gt;标记中。<br/>
+								3.当用户登陆之后显示用户登录名字用此标签标记{{username}}<br/>
+								例如:&lt;user_login_show&gt; &lt;h3&gt;欢迎{{username}}登陆&lt;/h3&gt; &lt;/user_login_show&gt; <br/><br/>
+								用户没有登陆之前这段代码是隐藏的<br/>
+								当某用户登陆之后就是这样显示出来的:<br/><h3>欢迎张三登陆</h3>
+							</div>
+							<input type="hidden" name='doc_id'  value="{$doc.id}"/>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal" id="p_close">关闭</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!--模板使用说明 end--> 
+	
+	
+</block>
