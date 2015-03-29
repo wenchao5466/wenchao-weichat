@@ -1,10 +1,10 @@
-<tagLib name="html" /> 
+<?php if (!defined('THINK_PATH')) exit();?>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title><block name="title"></block></title>
+    <title><?php echo ($title); ?></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="stylesheet" href="/assets/css/bootstrap.css">
@@ -46,7 +46,7 @@
           <!-- 手机 下拉 -->
  		   <div class="search-user navbar-togglable usercontent" style="display:none;">
 	           	<ul class="nav">
-	           		<li><a href="#">欢迎 {$user_name}</a></li>
+	           		<li><a href="#">欢迎 <?php echo ($user_name); ?></a></li>
 		           <li>
 		             <a href="/admin/login/logout">退出</a>
 		           </li> 
@@ -55,18 +55,14 @@
             <!-- end 手机 下拉 -->
         </div>
         <div class="navbar-text pull-right mobile-pulldown">
-          <!-- <if condition="(!isset($menu_prv))">
-          <a href="/User/changePassword" class="" style="margin-right:10px;margin-left:10px;"><b>修改密码</b></a>
-        <else />
-          <a href="/User/profile" class="" style="margin-right:120px;"><b>返回个人主页</b></a>
-        </if> -->
-          <if condition="($user_name)">
-            <a href="#" class=""><b>{$user_name}</b></a>
+          <!-- <?php if((!isset($menu_prv))): ?><a href="/User/changePassword" class="" style="margin-right:10px;margin-left:10px;"><b>修改密码</b></a>
+        <?php else: ?>
+          <a href="/User/profile" class="" style="margin-right:120px;"><b>返回个人主页</b></a><?php endif; ?> -->
+          <?php if(($user_name)): ?><a href="#" class=""><b><?php echo ($user_name); ?></b></a>
 							
              <a href="/admin/login/logout" class="">退出</a> 
-          <else />
-            <a href="/admin/login" class="">登录</a>
-          </if>
+          <?php else: ?>
+            <a href="/admin/login" class="">登录</a><?php endif; ?>
           <!-- <a class="glyphicon glyphicon-question-sign email-help" style="font-size:17px;" data-toggle="modal" href="#helpModal"></a> -->
         </div>
       </div>
@@ -74,21 +70,48 @@
     <div class="container" id="content" >
       <div class="row">
       <if>
-        <block name="left">
+        
           <div class="col-sm-3">
             <nav class="clearfix navbar-togglable" role="navigation">
 			<ul class="nav">
-                <volist name="list" id="vo">
-          			<li <if condition="($nav_id eq $i)">class="active"</if> ><a href="{$vo['url']}">{$vo['title']}</a></li>
-				</volist>
+                <?php if(is_array($list)): $i = 0; $__LIST__ = $list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><li <?php if(($nav_id == $i)): ?>class="active"<?php endif; ?> ><a href="<?php echo ($vo['url']); ?>"><?php echo ($vo['title']); ?></a></li><?php endforeach; endif; else: echo "" ;endif; ?>
 				
                 </ul>
             </nav>
           </div>
-        </block>
+        
         </if>
         <div class="col-sm-9" >
-          <block name="main"></block>
+          
+<link rel="stylesheet" href="/assets/css/doc.css">
+<script src="/assets/js/category.js"></script>
+<style>
+	.pagination {margin-left:15px;margin-bottom:0;}    
+</style>
+<div id="content-main" class="main">
+	<div class="Right-body-left"><?php echo ($now_title); ?></div>
+	<div class="row" style="margin-top:20px;"> 
+
+</div>
+<div class="form-group"  class="col-xs-6">
+	<form method="post" class="form-inline" id="doc_form" action='/admin/index/saveItem/id/<?php echo ($repay_item["id"]); ?>' enctype="multipart/form-data" >
+		<input type="hidden" name="user_id" value="<?php echo ($repay_item["id"]); ?>"/>
+		<div class="row" style="position:relative;clear:both;">
+		<div class="form-group  col-xs-9">
+			<label for="keyword">关键字：</label>
+			<input type="text text-input" class="form-control input-sm" id="keyword" placeholder="请输入关键字" value="<?php echo ($repay_item["keyword"]); ?>" name="keyword" maxlength="50" required="">
+		</div>
+		<div class="form-group  col-xs-9">
+			<label for="message">回复内容：</label>
+			<input type="text text-input" class="form-control input-sm" id="message" placeholder="请输入回复内容" value="<?php echo ($repay_item["message"]); ?>" name="message" maxlength="50" required="">
+		</div>
+		<input type="submit" value="提交" class="btn btn-success btn-sm" >
+	</div>
+	</form>
+	</div>
+</div>
+
+
         </div>
       </div>
     </div>

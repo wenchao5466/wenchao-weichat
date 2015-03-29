@@ -26,29 +26,12 @@ class WeichatAction extends BaseAction {
 					exit;
 					break;
 			case Wechat::MSGTYPE_EVENT:
-				if($weObj->Event=='subscribe'){
-					$message = $this->subscribe();
-					$weObj->text($message)->reply();
-				}else if($weObj->Event=='unsubscribe'){
-					
-				}
-				break;
+					break;
 			case Wechat::MSGTYPE_IMAGE:
-				break;
+					break;
 			default:
 					$weObj->text("help info")->reply();
 		}
-	}
-	
-	public function subscribe(){
-		$reply_model = new ReplyModel();
-		$reply_item = $reply_model->getByKeyword('[欢迎关注]');
-		if($reply_item){
-			$message = $reply_item['message'];
-		}else{
-			$message = '';
-		}
-		return $message;
 	}
 	
 	public function deliverGoods(){

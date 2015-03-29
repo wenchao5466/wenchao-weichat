@@ -11,6 +11,10 @@
 		'base_setting'=>array(
 			
 		),
+		'nav_list' => array(
+			array('url'=>'/admin/index','title'=>'自动回复'),
+			array('url'=>'/admin/payment','title'=>'新闻管理'),
+		),
 		'LOG_RECORD' =>	true,
         'URL_404_REDIRECT' => './404',
 		'URL_HTML_SUFFIX'=>'',//伪静态URL设置
@@ -19,8 +23,8 @@
 		'TMPL_ACTION_SUCCESS' => './success',
 		'APP_GROUP_LIST'=>'Public,Admin',
 		'DEFAULT_GROUP'=>'Public',
-		'PUBLIC_MODULE_NAME'=>array('WeiChat'),
-		'DEFAULT_MODULE' => 'WeiChat',
+		//'PUBLIC_MODULE_NAME'=>array('WeiChat'),
+		'DEFAULT_MODULE' => 'Index',
 	)
 ?>
 	
